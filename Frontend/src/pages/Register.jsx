@@ -48,7 +48,7 @@ function Register() {
           />
 
           <h1 className="text-5xl font-bold leading-tight">
-            Join Taskora 🚀
+            Join Taskora 
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-emerald-100">
