@@ -12,7 +12,7 @@ function Hero() {
           <div>
 
             <span className="inline-block bg-emerald-100 text-emerald-600 px-4 py-2 rounded-full text-sm font-semibold">
-              🚀 Manage Your Work Smarter
+               Manage Your Work Smarter
             </span>
 
             <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
