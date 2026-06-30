@@ -14,14 +14,24 @@ function Register() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await registerUser(data);
+ const onSubmit = async (data) => {
+  try {
+    const res = await registerUser(data);
 
-      toast.success(
-        res.data.message ||
-          "Verification email sent. Please check your inbox."
-      );
+    console.log("SUCCESS:", res);
+
+    toast.success(res.data.message);
+
+    navigate("/login");
+  } catch (error) {
+    console.log("ERROR:", error.response);
+
+    toast.error(
+      error.response?.data?.message ||
+      "Registration Failed"
+    );
+  }
+};
 
       navigate("/login");
     } catch (error) {
