@@ -3,8 +3,8 @@ const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const ApiResponse = require("../utils/ApiResponse");
 const generateToken = require("../utils/generateToken");
-const crypto = require("crypto");
-const sendEmail = require("../utils/sendEmail");
+// const crypto = require("crypto");
+// const sendEmail = require("../utils/sendEmail");
 
 const authCookieOptions = {
   httpOnly: true,
@@ -25,20 +25,20 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Generate Verification Token
-  const verificationToken = crypto
-    .randomBytes(32)
-    .toString("hex");
+  // const verificationToken = crypto
+  //   .randomBytes(32)
+  //   .toString("hex");
 
   // Create User
   const user = await User.create({
     name,
     email,
     password,
+     isVerified: true,
+    // verificationToken,
 
-    verificationToken,
-
-    verificationTokenExpiry:
-      Date.now() + 60 * 60 * 1000, // 1 Hour
+    // verificationTokenExpiry:
+    //   Date.now() + 60 * 60 * 1000, // 1 Hour
   });
 
   const createdUser = await User.findById(user._id).select("-password");
@@ -50,46 +50,46 @@ const registerUser = asyncHandler(async (req, res) => {
     );
   }
 
-  // Verification URL
-  const verifyUrl =
-    `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
+  // // Verification URL
+  // const verifyUrl =
+  //   `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
 
-  // Send Email
-  await sendEmail({
-    to: createdUser.email,
+  // // Send Email
+  // await sendEmail({
+  //   to: createdUser.email,
 
-    subject: "Verify Your Taskora Account",
+  //   subject: "Verify Your Taskora Account",
 
-    html: `
-      <div style="font-family:Arial,sans-serif;padding:30px">
-        <h2>Welcome to Taskora 👋</h2>
+  //   html: `
+  //     <div style="font-family:Arial,sans-serif;padding:30px">
+  //       <h2>Welcome to Taskora 👋</h2>
 
-        <p>
-          Thanks for registering.
-          Please verify your email by clicking the button below.
-        </p>
+  //       <p>
+  //         Thanks for registering.
+  //         Please verify your email by clicking the button below.
+  //       </p>
 
-        <a
-          href="${verifyUrl}"
-          style="
-            display:inline-block;
-            background:#10b981;
-            color:#fff;
-            padding:12px 24px;
-            border-radius:8px;
-            text-decoration:none;
-            margin:20px 0;
-          "
-        >
-          Verify Email
-        </a>
+  //       <a
+  //         href="${verifyUrl}"
+  //         style="
+  //           display:inline-block;
+  //           background:#10b981;
+  //           color:#fff;
+  //           padding:12px 24px;
+  //           border-radius:8px;
+  //           text-decoration:none;
+  //           margin:20px 0;
+  //         "
+  //       >
+  //         Verify Email
+  //       </a>
 
-        <p>
-          This link will expire in 1 hour.
-        </p>
-      </div>
-    `,
-  });
+  //       <p>
+  //         This link will expire in 1 hour.
+  //       </p>
+  //     </div>
+  //   `,
+  // });
 
   return res.status(201).json(
     new ApiResponse(
@@ -117,12 +117,12 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid Email or Password");
     }
 
-    if (!user.isVerified) {
-    throw new ApiError(
-        403,
-        "Please verify your email before logging in."
-    );
-}
+//     if (!user.isVerified) {
+//     throw new ApiError(
+//         403,
+//         "Please verify your email before logging in."
+//     );
+// }
 
     const token = generateToken(user._id);
 
