@@ -14,7 +14,7 @@ function Register() {
     formState: { errors, isSubmitting },
   } = useForm();
 
- const onSubmit = async (data) => {
+const onSubmit = async (data) => {
   try {
     const res = await registerUser(data);
 
@@ -32,15 +32,6 @@ function Register() {
     );
   }
 };
-
-      navigate("/login");
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Registration Failed"
-      );
-    }
-  };
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center px-5 py-10">
